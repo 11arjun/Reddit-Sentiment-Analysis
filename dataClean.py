@@ -16,6 +16,7 @@ nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 # Loading the data
 Data = pd.read_csv('reddit_comments_latests.csv' , index_col=False)
+Data.dropna(inplace=True)
 # Taking .1 % datas from the set
 # Data = Datas.sample(frac=0.001, random_state=42)
 # Let's check for the missing values now
@@ -65,19 +66,10 @@ def sentimentAnalysis(text):
         return "Neutral"
     else:
         return "Negative"
-# Let's Apply this ti a dataset now.
+# Let's Apply this in a dataset now.
 Data['sentiment'] = Data['cleanText'].apply(sentimentAnalysis)
 # Creating a DataFrame with desire columns
 labeledData = Data[['cleanText', 'sentiment']]
 labeledData.to_csv('labeledSentiments.csv' , index= False , sep='\t')
-# # Let's use RobertaTokenizer
-# Tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
-#
-# # Let's create a tokenizer Function
-# def tokenizeText(text):
-#     return Tokenizer(text, truncation=True, padding='max_length', max_length=512)
-#
-# # Now lets' apply tokenizer to clean Datas
-# Data['cleanText'] = Data['cleanText'].apply(tokenizeText)
-# print(Data['cleanText'].head(5))
+
 
